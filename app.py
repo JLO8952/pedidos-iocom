@@ -4,6 +4,17 @@ from datetime import date
 from xhtml2pdf import pisa
 import io
 
+# 1. Definición de la función
+def get_image_base64(path):
+    try:
+        with open(path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode('utf-8')
+    except:
+        return ""
+
+# 2. Cargar la imagen (esto se ejecutará una vez al iniciar la app)
+logo_base64 = get_image_base64("logo.png")
+
 # Configuración de la página
 st.set_page_config(page_title="Pedidos IOCOM", page_icon="📝", layout="centered")
 
@@ -93,6 +104,11 @@ if st.button("Generar PDF de Orden", type="primary"):
 
     # PLANTILLA HTML CLONADA EXACTAMENTE A LA IMAGEN (HORIZONTAL)
     html_template = f"""
+
+<td rowspan="3" width="22%" class="text-center">
+    <img src="data:image/png;base64,{logo_base64}" width="100">
+</td>
+
     <!DOCTYPE html>
     <html lang="es">
     <head>
